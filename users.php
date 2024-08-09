@@ -31,9 +31,7 @@
 </head>
 <body class="bg-base-200">
     <div>
-
         <?php include 'header.php';?>
-
         <div class="drawer xl:drawer-open">
             <!-- content -->
             <input id="drawer-leftmenu" type="checkbox" class="drawer-toggle" />
@@ -42,7 +40,11 @@
                 <div class="bg-white m-5 p-5 rounded-md">
                     <div class="flex flex-row justify-between items-center">
                         <h1 class="text-2xl font-semibold">Users</h1>
-                        <label id="btnAddNewuser" for="my_modal_1" class="btn btn-sm bg-orange-700 text-white"><i class="fa-solid fa-plus"></i> Add</label>
+                        <?php
+                            if($_SESSION["Role"]=='Admin'){
+                                echo '<label id="btnAddNewuser" for="my_modal_1" class="btn btn-sm bg-orange-700 text-white"><i class="fa-solid fa-plus"></i> Add</label>';
+                            }
+                        ?>
                         <!-- Modal new user -->
                         <input type="checkbox" id="my_modal_1" class="modal-toggle" />
                         <div class="modal" role="dialog">
@@ -115,16 +117,20 @@
                                     if ($users->num_rows > 0) {
                                         // output data of each row
                                         while($user = $users->fetch_assoc()) {
+                                            $btnAction = '
+                                                <div class="dropdown">
+                                                    <div tabindex="0" role="button" class="btn btn-sm bg-orange-700 text-white m-1">Action</div>
+                                                    <ul tabindex="0" class="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow">
+                                                        <li><a class="btnEditUser" data-id="'.$user['Id'].'" data-user="'.$user['Username'].'" data-role="'.$user['Role'].'">Edit</a></li>
+                                                        <li><a class="btnDeleteUser" data-id="'.$user['Id'].'" data-user="'.$user['Username'].'">Delete</a></li>
+                                                    </ul>
+                                                </div>
+                                            ';
+
                                             echo '
                                                 <tr class="hover:bg-base-200 text-xl">
                                                     <th>
-                                                        <div class="dropdown">
-                                                            <div tabindex="0" role="button" class="btn btn-sm bg-orange-700 text-white m-1">Action</div>
-                                                            <ul tabindex="0" class="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow">
-                                                                <li><a class="btnEditUser" data-id="'.$user['Id'].'" data-user="'.$user['Username'].'" data-role="'.$user['Role'].'">Edit</a></li>
-                                                                <li><a class="btnDeleteUser" data-id="'.$user['Id'].'" data-user="'.$user['Username'].'">Delete</a></li>
-                                                            </ul>
-                                                        </div>
+                                                        '.($_SESSION["Role"]=='Admin' ? $btnAction : '').'
                                                     </th>
                                                     <td>'.$user['Username'].'</td>
                                                     <td>'.$user['Role'].'</td>

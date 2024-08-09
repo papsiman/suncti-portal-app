@@ -23,17 +23,23 @@
                 </a>
             </div>
             <div class="flex-none gap-2">
-                <div class="dropdown dropdown-end">
-                    <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar">
-                        <div class="rounded-full bg-neutral text-neutral-content w-24 text-2xl text-center">
-                            <i class="fa-solid fa-user mt-[7px]"></i>
-                        </div>
+                <div class="dropdown dropdown-end flex flex-row justify-end items-center gap-2">
+                    <div>
+                        <button class="btn bth-ghost"><?php echo isset($_SESSION["User"]) ? $_SESSION["User"] : '' ; ?></button>
                     </div>
-                    <ul tabindex="0" class="menu menu-sm dropdown-content bg-base-100 z-[1] mt-4 p-8 shadow-sm">
-                        <li>
-                            <a href="./logout.php" class=""><i class="fa fa-sign-out" aria-hidden="true"></i> Logout</a>
-                        </li>
-                    </ul>
+                    <div>
+                        <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar">
+                            <div class="rounded-full bg-neutral text-neutral-content w-24 text-2xl text-center">
+                                <i class="fa-solid fa-user mt-[7px]"></i>
+                            </div>
+                        </div>
+                        <ul tabindex="0" class="menu menu-sm dropdown-content bg-base-100 z-[1] mt-4 p-4 shadow-sm">
+                            <li>
+                                <a href="./logout.php" class=""><i class="fa fa-sign-out" aria-hidden="true"></i> Logout</a>
+                            </li>
+                        </ul>
+                    </div>
+                    
                 </div>
             </div>
 </div>

@@ -1,12 +1,11 @@
 <?php
-session_start();
-require_once "config.php";
+    session_start();
+    require_once "config.php";
 
-$error = '';
-if (isset($_SESSION['error'])){
-    $error = $_SESSION['error'];
-}
-
+    $error = '';
+    if (isset($_SESSION['error'])){
+        $error = $_SESSION['error'];
+    }
 ?>
 
 <!doctype html>
@@ -15,13 +14,13 @@ if (isset($_SESSION['error'])){
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Suncti</title>
+
   <link rel="icon" href="./public/favicon.ico" type="image/x-icon">
 
   <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.10/dist/full.min.css" rel="stylesheet" type="text/css" />
   <script src="https://cdn.tailwindcss.com"></script>
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
-
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
 </head>
@@ -49,7 +48,7 @@ if (isset($_SESSION['error'])){
                 <div class="w-full flex flex-col md:flex-row justify-center items-center md:items-stretch gap-4 px-4 lg:px-0">
 
                     <!-- Monitoring -->
-                    <label for="my_modal_1" class="relative my_modal_1 w-full md:w-40 h-40 cursor-pointer hover:scale-105 rounded-xl bg-[#242526]">
+                    <label id="Monitoring" for="my_modal_1" class="relative my_modal_1 w-full md:w-40 h-40 cursor-pointer hover:scale-105 rounded-xl bg-[#242526]">
                         <div class="absolute w-full h-full flex justify-center items-center">
                             <h2 class="card-title text-red-500"><i class="fa-solid fa-phone"></i> Monitoring</h2>
                         </div>
@@ -61,7 +60,7 @@ if (isset($_SESSION['error'])){
                     </label>
 
                     <!-- IPBX -->
-                    <?php echo "<a href='$monitoringUrl' class='relative my_modal_1 w-full md:w-40 h-40 cursor-pointer hover:scale-105 rounded-xl bg-[#242526]'>" ?>
+                    <a href="<?php echo $monitoringUrl; ?>" class='relative w-full md:w-40 h-40 cursor-pointer hover:scale-105 rounded-xl bg-[#242526]'>
                         <div class="absolute w-full h-full flex justify-center items-center">
                             <h2 class="card-title text-red-500"><i class="fa-solid fa-chart-line"></i> IPBX</h2>
                         </div>
@@ -102,7 +101,7 @@ if (isset($_SESSION['error'])){
                                             <button type="submit" class="flex w-full justify-center rounded-md bg-orange-700 px-3 py-2 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-orange-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Sign in</button>
                                         </div>
                                         <div class="flex justify-center text-red-700">
-                                            <span><?php echo $error?></span>
+                                            <span><?php echo $error;?></span>
                                         </div>
                                     </form>
                                 </div>
@@ -117,25 +116,38 @@ if (isset($_SESSION['error'])){
         </div>
     </div>
 
+    <script>
+        $(document).ready(function(){
+            $('#Monitoring').click(function(){
+                $.ajax({ 
+                    url: './common/validate-session.php'
+                 })
+                 .done(function(e){
+                    console.log(e);
+                    if(e == 'True'){
+                        window.location.replace('ipbx-trunk.php');
+                    }
+                 });
+            });
+        });
+    </script>
 
     <?php include 'footer.php';?>
 
   </div>
 
 </body>
-
 <?php 
     if($error){
         $_SESSION['error'] = '';
         echo '
             <script>
                 $(document).ready(function(){
-                "use strict"
+                    "use strict"
                     $(".my_modal_1").click();
                 });
             </script>
         ';
     }
 ?>
-
 </html>
