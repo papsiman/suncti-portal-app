@@ -15,6 +15,6 @@
     }
 
     //Url
-    $monitoringUrl = '../../operator/operator/index.html';
+    $monitoringUrl = '../../admin/config.php';
 
 ?>
