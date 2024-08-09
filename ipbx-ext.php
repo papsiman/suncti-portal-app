@@ -32,25 +32,11 @@
         
         <?php include 'header.php';?>
 
-        <div class="drawer lg:drawer-open flex flex-row">
-            <input id="my-drawer-2" type="checkbox" class="drawer-toggle" />
-            <div class="drawer-side min-w-72">
-                <label for="my-drawer-2" aria-label="close sidebar" class="drawer-overlay"></label>
-                <ul class="menu h-full p-4 bg-white text-xl">
-                    <!-- Sidebar content here -->
-                    <li class="">
-                        <details>
-                        <summary class="hover:bg-base-200 hover:text-black">Administrator</summary>
-                        <ul>
-                            <li><a href="./users.php" alt="" class="hover:bg-base-200 hover:text-black">Users</a></li>
-                        </ul>
-                    </li>
-                    <li><a href="./ipbx-trunk.php" alt="" class="hover:bg-base-200 hover:text-black">Trunks Status</a></li>
-                    <li><a href="./ipbx-ext.php" alt="" class="text-orange-700">Extension Status</a></li>
-                </ul>
-            </div>
-            <div class="flex flex-col w-full min-h-[calc(100vh-240px)]">
-                <div class="bg-white mx-10 mt-10 mb-5 p-5 rounded-md">
+        <div class="drawer xl:drawer-open">
+            <!-- content -->
+            <input id="drawer-leftmenu" type="checkbox" class="drawer-toggle" />
+            <div class="drawer-content">
+                <div class="bg-white m-5 p-5 rounded-md">
                     <h1 class="text-2xl font-semibold">Extension Status</h1>
                     <div class="flex flex-row gap-4 pt-2">
                         <span>132 online of 633</span>
@@ -58,7 +44,7 @@
                         <span>2024/08/05 00:00:00</span>
                     </div>
                 </div>
-                <div class="bg-white mx-10 my-0 p-10 rounded-md">
+                <div class="bg-white mx-5 my-0 p-5 rounded-md">
                     <div class="overflow-x-auto">
                         <table class="table">
                             <!-- head -->
@@ -259,6 +245,22 @@
                         </table>
                     </div>
                 </div>
+            </div>
+            <!-- left menu -->
+            <div class="drawer-side">
+                <label for="drawer-leftmenu" aria-label="close sidebar" class="drawer-overlay"></label>
+                <ul class="menu h-full p-4 bg-white text-xl">
+                    <!-- Sidebar content here -->
+                    <li class="">
+                        <details>
+                        <summary class="hover:bg-base-200 hover:text-black">Administrator</summary>
+                        <ul>
+                            <li><a href="./users.php" alt="" class="hover:bg-base-200 hover:text-black">Users</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="./ipbx-trunk.php" alt="" class="hover:bg-base-200 hover:text-black">Trunk Status</a></li>
+                    <li><a href="./ipbx-ext.php" alt="" class="text-orange-700">Extension Status</a></li>
+                </ul>
             </div>
         </div>
 

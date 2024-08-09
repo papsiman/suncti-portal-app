@@ -39,9 +39,9 @@ if (isset($_SESSION['error'])){
         <div class="w-full h-full flex flex-col md:flex-row justify-between items-center px-4 lg:px-2 gap-4 md:gap-8">
             <div class="w-full md:w-1/2 flex flex-col justify-start items-start gap-4">
                 <div class="btn rounded-xl">
-                    !@#$
+                    ****
                 </div>
-                <h2 class="text-2xl md:text-4xl lg:text-6xl font-semibold">We offers consultants and Operate of the Microsoft Team.</h2>
+                <span class="text-2xl md:text-4xl lg:text-6xl font-semibold">We offers consultants and Operate of the <span class="text-red-700">Microsoft Team</span>.</span>
                 <span class="text-normal md:text-xl">More than sixteen years our experiances.</span>
             </div>
             <div class="w-full md:w-1/2 mockup-window bg-base-300 border pb-20">

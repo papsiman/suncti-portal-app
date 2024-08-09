@@ -1,9 +1,8 @@
-
-<div class="navbar bg-white border border-border">
+<div class="navbar h-[50px] bg-white border border-border">
             <div class="flex-1 -mt-2">
-                <div class="drawer-content flex flex-col items-center justify-center">
+                <div class="flex flex-col items-center justify-center">
                     <!-- Page content here -->
-                    <label for="my-drawer-2" class="btn btn-white drawer-button lg:hidden">
+                    <label for="drawer-leftmenu" class="btn btn-white drawer-button xl:hidden">
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
                             fill="none"
@@ -37,4 +36,4 @@
                     </ul>
                 </div>
             </div>
-        </div>
+</div>

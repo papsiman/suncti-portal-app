@@ -10,7 +10,4 @@ if (!isset($_SESSION['CREATED'])) {
     session_regenerate_id(true);    // change session ID for the current session and invalidate old session ID
     $_SESSION['CREATED'] = time();  // update creation time
 }
-
-echo '<script>console.log("SESSION TIME : ' . time() - $_SESSION['CREATED'].'")</script>';
-
 ?>
