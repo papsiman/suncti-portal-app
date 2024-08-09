@@ -270,14 +270,12 @@
         $(document).ready(function(){
 
             init();
+	    setInterval(function(){init();}, 3000);
 
+		//Start process over here
             function init(){
-                setInterval(function(){
-
-                    showSummary();
-                    showLocalDate();
-
-                }, 3000);
+                showSummary();
+                showLocalDate();
             }
 
             function showSummary(){
