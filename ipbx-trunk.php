@@ -35,7 +35,7 @@
         <div class="drawer xl:drawer-open">
             <!-- content -->
             <input id="drawer-leftmenu" type="checkbox" class="drawer-toggle" />
-            <div class="drawer-content">
+            <div class="drawer-content min-h-[calc(100vh-68px)]">
                 <div class="bg-white m-5 p-5 rounded-md">
                     <h1 class="text-2xl font-semibold">Trunks Status</h1>
                     <div class="flex flex-row gap-4 pt-2">
@@ -45,7 +45,7 @@
                     </div>
                 </div>
                 <div class="bg-white mx-5 my-0 p-5 rounded-md">
-                    <div class="overflow-x-auto">
+                    <div>
                         <table class="table">
                             <!-- head -->
                             <thead>

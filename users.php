@@ -37,7 +37,7 @@
         <div class="drawer xl:drawer-open">
             <!-- content -->
             <input id="drawer-leftmenu" type="checkbox" class="drawer-toggle" />
-            <div class="drawer-content">
+            <div class="drawer-content min-h-[calc(100vh-68px)]">
                 <!-- Header -->
                 <div class="bg-white m-5 p-5 rounded-md">
                     <div class="flex flex-row justify-between items-center">
@@ -100,7 +100,7 @@
                 </div>
                 <!-- Table -->
                 <div class="bg-white mx-5 my-0 p-5 rounded-md">
-                    <div class="overflow-x-auto">
+                    <div>
                         <table class="table">
                             <!-- head -->
                             <thead>
