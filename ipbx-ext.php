@@ -23,8 +23,7 @@
   <script src="https://cdn.tailwindcss.com"></script>
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
-
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
 </head>
 <body class="bg-base-200">
@@ -39,9 +38,9 @@
                 <div class="bg-white m-5 p-5 rounded-md">
                     <h1 class="text-2xl font-semibold">Extension Status</h1>
                     <div class="flex flex-row gap-4 pt-2">
-                        <span>132 online of 633</span>
+                        <span id="summary">-</span>
                         <div class="divider divider-horizontal"></div>
-                        <span>2024/08/05 00:00:00</span>
+                        <span id="currentDate">-</span>
                     </div>
                 </div>
                 <div class="bg-white mx-5 my-0 p-5 rounded-md">
@@ -265,5 +264,36 @@
         </div>
 
     </div>
+
+    <script>
+
+        $(document).ready(function(){
+
+            init();
+
+            function init(){
+                setInterval(function(){
+
+                    showSummary();
+                    showLocalDate();
+
+                }, 3000);
+            }
+
+            function showSummary(){
+                $('#summary').text('2 online of 2');
+            }
+
+            function showLocalDate() {
+                var dNow = new Date();
+                console.log(dNow);
+                var localdate= dNow.getDate()+ '/' + (dNow.getMonth()+1) + '/' + dNow.getFullYear() + ' ' + dNow.getHours() + ':' + dNow.getMinutes() + ':' + dNow.getSeconds();
+                $('#currentDate').text(localdate);
+            }
+
+        });
+
+    </script>
+
 </body>
 </html>
