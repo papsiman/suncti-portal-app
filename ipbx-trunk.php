@@ -50,7 +50,7 @@
                             <thead>
                                 <tr class="text-xl">
                                     <th>#</th>
-                                    <th>Number</th>
+                                    <th>Name</th>
                                     <th>IP Address</th>
                                     <th>Port</th>
                                     <th>Status</th>
