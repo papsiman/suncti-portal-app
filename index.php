@@ -1,11 +1,18 @@
 <?php
-    session_start();
-    require_once "config.php";
+session_start();
+require_once "config.php";
 
-    $error = '';
-    if (isset($_SESSION['error'])){
-        $error = $_SESSION['error'];
-    }
+$error = '';
+if (isset($_SESSION['error'])) {
+    $error = $_SESSION['error'];
+}
+
+$sql = "SELECT * FROM config where name='billing'";
+$configs = $conn->query($sql);
+if ($configs->num_rows > 0) {
+    $config = $configs->fetch_assoc();
+}
+
 ?>
 
 <!doctype html>
@@ -71,6 +78,24 @@
                         </div>
                     </a>
 
+                    <!-- Dashboard -->
+                    <?php
+                        if ($config['value'] != '') {
+                            echo '
+                            <a href="' . $config['value'] . '" class="relative w-full md:w-40 h-40 cursor-pointer hover:scale-105 rounded-xl bg-[#242526]">
+                               <div class="absolute w-full h-full flex justify-center items-center">
+                                   <h2 class="card-title text-red-500"><i class="fa-solid fa-chart-line"></i> Billing</h2>
+                               </div>
+                               <div class="absolute w-full">
+                                   <div class="bg-fixed card w-full h-full flex justify-center items-center rounded-md"
+                                       style="background-image: url("./public/card-bg-1.png");background-size: 64px; background-repeat:repeat;opacity:0.1;"
+                                   ></div>
+                               </div>
+                           </a>
+                           ';
+                        }
+                    ?>
+
                     <input type="checkbox" id="my_modal_1" class="modal-toggle" />
                     <div class="modal" role="dialog">
                         <div class="modal-box">
@@ -101,7 +126,7 @@
                                             <button type="submit" class="flex w-full justify-center rounded-md bg-orange-700 px-3 py-2 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-orange-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Sign in</button>
                                         </div>
                                         <div class="flex justify-center text-red-700">
-                                            <span><?php echo $error;?></span>
+                                            <span><?php echo $error; ?></span>
                                         </div>
                                     </form>
                                 </div>
@@ -119,7 +144,7 @@
     <script>
         $(document).ready(function(){
             $('#Monitoring').click(function(){
-                $.ajax({ 
+                $.ajax({
                     url: './common/validate-session.php'
                  })
                  .done(function(e){
@@ -137,10 +162,10 @@
   </div>
 
 </body>
-<?php 
-    if($error){
-        $_SESSION['error'] = '';
-        echo '
+<?php
+if ($error) {
+    $_SESSION['error'] = '';
+    echo '
             <script>
                 $(document).ready(function(){
                     "use strict"
@@ -148,6 +173,6 @@
                 });
             </script>
         ';
-    }
+}
 ?>
 </html>

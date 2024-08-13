@@ -1,5 +1,7 @@
 <?php
 
+require_once "../common/session-ctl.php";
+
 $connection = ssh2_connect('192.168.168.171', 22);
 ssh2_auth_password($connection, 'root', 'smepyguz33100123');
 

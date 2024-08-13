@@ -213,6 +213,7 @@
                             <li><a href="./users.php" alt="" class="text-orange-700">Users</a></li>
                         </ul>
                     </li>
+                    <li><a href="./billing.php" alt="" class="hover:bg-base-200 hover:text-black">Billing</a></li>
                     <li><a href="./ipbx-trunk.php" alt="" class="hover:bg-base-200 hover:text-black">Trunk Status</a></li>
                     <li><a href="./ipbx-ext.php" alt="" class="hover:bg-base-200 hover:text-black">Extension Status</a></li>
                 </ul>

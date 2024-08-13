@@ -1,15 +1,14 @@
 <?php
-    require_once "config.php";
-    require_once "common/session-ctl.php";
+require_once "config.php";
+require_once "common/session-ctl.php";
 
-    if(isset($_SESSION["Alive"])){
-        if($_SESSION["Alive"] != "Alive"){
-            header("Location: index.php");
-        }
-    }
-    else{
+if (isset($_SESSION["Alive"])) {
+    if ($_SESSION["Alive"] != "Alive") {
         header("Location: index.php");
     }
+} else {
+    header("Location: index.php");
+}
 
 ?>
 
@@ -45,7 +44,7 @@
                 </div>
                 <div class="bg-white mx-5 my-0 p-5 rounded-md">
                     <div>
-                        <table class="table">
+                        <table id="tblTruck" class="table">
                             <!-- head -->
                             <thead>
                                 <tr class="text-xl">
@@ -56,33 +55,7 @@
                                     <th>Status</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <!-- row 1 -->
-                                <tr class="hover:bg-base-200 hover:text-black text-xl">
-                                    <th>1</th>
-                                    <td>audiocodes_sbc</td>
-                                    <td><a href="http://202.183.135.69" class="underline underline-offset-1 text-orange-700">202.183.135.69</a></td>
-                                    <td>80</td>
-                                    <td><div class="badge badge-success text-white">Not in use</div></td>
-                                </tr>
-                                <!-- row 2 -->
-                                <tr class="hover:bg-base-200 hover:text-black text-xl">
-                                    <th>2</th>
-                                    <td>audiocodes_sbc_vm</td>
-                                    <td><a href="http://202.183.135.69" class="underline underline-offset-1 text-orange-700">202.183.135.69</a></td>
-                                    <td>80</td>
-                                    <td><div class="badge badge-error text-white">In use</div></td>
-                                </tr>
-                                <!-- row 2 -->
-                                <tr class="hover:bg-base-200 hover:text-black text-xl">
-                                    <th>3</th>
-                                    <td>audiocodes_sbc_vm_2</td>
-                                    <td><a href="http://202.183.135.69" class="underline underline-offset-1 text-orange-700">202.183.135.69</a></td>
-                                    <td>80</td>
-                                    <td><div class="badge badge-ghost">Unavailable</div></td>
-                                </tr>
-                                
-                            </tbody>
+                            <tbody></tbody>
                         </table>
                     </div>
                 </div>
@@ -99,6 +72,7 @@
                             <li><a href="./users.php" alt="" class="hover:bg-base-200 hover:text-black">Users</a></li>
                         </ul>
                     </li>
+					<li><a href="./billing.php" alt="" class="hover:bg-base-200 hover:text-black">Billing</a></li>
                     <li><a href="./ipbx-trunk.php" alt="" class="text-orange-700">Trunk Status</a></li>
                     <li><a href="./ipbx-ext.php" alt="" class="hover:bg-base-200 hover:text-black">Extension Status</a></li>
                 </ul>
@@ -111,25 +85,209 @@
 
         $(document).ready(function(){
 
-            init();
-	    setInterval(function(){init();}, 3000);
+		var endpoints = [];
+		var contacts = [];
 
-		//Start process over here
-            function init(){
-                showSummary();
-                showLocalDate();
-            }
+		//Refresh process
+            	init();
+	    	setInterval(function(){init();}, 3000);
 
-            function showSummary(){
-                $('#summary').text('2 online of 2');
-            }
+	    	//Start process over here
+            	function init(){
 
-            function showLocalDate() {
-                var dNow = new Date();
-                console.log(dNow);
-                var localdate= dNow.getDate()+ '/' + (dNow.getMonth()+1) + '/' + dNow.getFullYear() + ' ' + dNow.getHours() + ':' + dNow.getMinutes() + ':' + dNow.getSeconds();
-                $('#currentDate').text(localdate);
-            }
+			endpoints = [];
+			contacts = [];
+
+			getEndPoint();
+                	showLocalDate();
+            	}
+
+		// Retive data and filter
+		function mergeData(){
+			//console.log(endpoints);
+			//console.log(contacts);
+			const results = [];
+			endpoints.map((item)=>{
+				results.push({
+					name: item.name,
+					type: item.type,
+					status: item.status,
+					statusStyle: item.statusStyle,
+					isOnline: item.isOnline,
+					contacts: contacts.filter((element)=>element.name === item.name) ?? []
+				});
+			});
+			//bindingTable(results ?? []);
+			bindingTable(results.filter((element)=>element.type==='Trunck') ?? []);
+		}
+
+		function bindingTable(obj){
+			let str = '';
+			let cnt = 0;
+			let cntOnline = 0;
+
+			obj.sort((a, b) => a.name.localeCompare(b.name));
+			obj.map((header)=>{
+
+				if(header.contacts.length == 0){
+
+					cnt++;
+					cntOnline += header.isOnline;
+					str += `
+						<tr class="hover:bg-base-200 hover:text-black text-xl">
+                                    		<th>${cnt}</th>
+                                    		<td>${header.name}</td>
+                                    		<td></td>
+                                    		<td></td>
+                                    		<td><div class="${header.statusStyle}">${header.status}</div></td>
+                                		</tr>
+					`
+
+				}
+
+				header.contacts.map((item)=>{
+					cnt++;
+					cntOnline += item.isOnline;
+					str += `
+						<tr class="hover:bg-base-200 hover:text-black text-xl">
+                                    		<th>${cnt}</th>
+                                    		<td>${item.name}</td>
+                                    		<td><a target="_blank" href="http://${item.ip}" class="underline underline-offset-1 text-orange-700">${item.ip}</a></td>
+                                    		<td>${item.port}</td>
+                                    		<td><div class="${header.statusStyle}">${header.status}</div></td>
+                                		</tr>
+					`
+				});
+			});
+			showSummary(cntOnline,cnt);
+			$('#tblTruck').find('tbody').find('tr').remove();
+			$('#tblTruck').find('tbody').append(str);
+		}
+
+		function getEndPoint(){
+			$.ajax({ url: './asterisk/getendpoint.php'})
+                 	.done(function(res){
+				let data = [];
+				let arrs = res.replace('\n\r','\n').split("\n");
+				arrs.map((item)=>{
+					if(item.match(/Endpoint/) == 'Endpoint' && !item.includes('<Endpoint')){
+						let name = item.replace(' Endpoint:  ','').split(' ')[0];
+						endpoints.push({name:name.trim(),
+							type:getType(name),
+							status:getStatus(item),
+							statusStyle: getStatusStyle(item),
+							isOnline: checkOnline(item),
+						});
+					}
+				});
+                    		getContacts();
+                 	});
+		}
+
+		function getContacts(){
+			$.ajax({ url: './asterisk/getcontacts.php'})
+                 	.done(function(res){
+				var data = [];
+                    		let arrs = res.replace('\n\r','\n').split("\n");
+				arrs.map((item)=>{
+					if(item.match(/Contact/) == 'Contact' && !item.includes('ContactUri')){
+						let arrItem = item.trim().split(/\s+/);
+						let spiltNameAndIp = '';
+
+						if(arrItem[1].includes('@')){
+							spiltNameAndIp = '@';
+						}
+						else{
+							spiltNameAndIp = '/sip:';
+						}
+
+						let name = arrItem[1].split(spiltNameAndIp)[0].replace('sip:','');
+						let ipport = arrItem[1].split(spiltNameAndIp)[1];
+						contacts.push({name:name,
+							ip:ipport.split(':')[0],
+							port:ipport.split(':')[1],
+							type:getType(name),
+							status:getStatus(arrItem[3]),
+							statusStyle: getStatusStyle(arrItem[3]),
+							isOnline: checkOnline(arrItem[3]),
+						});
+					}
+				});
+				mergeData();
+                 	});
+		}
+
+		function getStatus(txt){
+			if(txt.match(/In use/gi) == 'In use'){
+				return 'In use';
+			}
+			else if(txt.match(/Not in use/gi) == 'Not in use'){
+				return 'Not in use';
+			}
+			else if(txt.match(/Unavailable/gi) == 'Unavailable'){
+				return 'Unavailable';
+			}
+			else if(txt.match(/Avail/gi) == 'Avail'){
+				return 'Avail';
+			}
+			else if(txt.match(/Ringing/gi) == 'Ringing'){
+				return 'Ringing';
+			}
+
+		}
+
+		function getStatusStyle(txt){
+			if(txt.match(/In use/gi) == 'In use'){
+				return 'badge badge-error text-white';
+			}
+			else if(txt.match(/Not in use/gi) == 'Not in use' || txt.match(/Avail/gi) == 'Avail' ){
+				return 'badge badge-success text-white';
+			}
+			else if(txt.match(/Ringing/gi) == 'Ringing'){
+				return 'badge badge-warning';
+			}
+			else if(txt.match(/Unavailable/gi) == 'Unavailable'){
+				return 'badge badge-neutral';
+			}
+		}
+
+		function checkOnline(txt){
+			if(txt.match(/In use/gi) == 'In use'){
+				return 1;
+			}
+			else if(txt.match(/Not in use/gi) == 'Not in use' || txt.match(/Avail/gi) == 'Avail' ){
+				return 1;
+			}
+			else if(txt.match(/Avail/gi) == 'Ringing'){
+				return 1;
+			}
+			else if(txt.match(/Unavailable/gi) == 'Unavailable'){
+				return 0;
+			}
+		}
+
+		function getType(txt){
+			let regExp = /[a-zA-Z]/g;
+			if (regExp.test(txt)) {
+  				return 'Trunck';
+			}
+			else{
+				return 'Extension';
+			}
+		}
+
+
+            	function showSummary(online, total){
+			let str = '<span class="badge badge-success text-white">'+online+'</span> online of '+total;
+                	$('#summary').html(str);
+            	}
+
+            	function showLocalDate() {
+                	var dNow = new Date();
+                	//console.log(dNow);
+               	 	var localdate= dNow.getDate()+ '/' + (dNow.getMonth()+1) + '/' + dNow.getFullYear() + ' ' + dNow.getHours() + ':' + dNow.getMinutes() + ':' + dNow.getSeconds();
+                	$('#currentDate').text(localdate);
+            	}
 
         });
 
