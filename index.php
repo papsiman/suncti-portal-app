@@ -69,7 +69,7 @@ if ($configs->num_rows > 0) {
                     <!-- IPBX -->
                     <a href="<?php echo $monitoringUrl; ?>" class='relative w-full md:w-40 h-40 cursor-pointer hover:scale-105 rounded-xl bg-[#242526]'>
                         <div class="absolute w-full h-full flex justify-center items-center">
-                            <h2 class="card-title text-red-500"><i class="fa-solid fa-chart-line"></i> IPBX</h2>
+                            <h2 class="card-title text-red-500"><i class="fa-solid fa-fax"></i> IPBX</h2>
                         </div>
                         <div class="absolute w-full">
                             <div class="bg-fixed card w-full h-full flex justify-center items-center rounded-md"
@@ -84,7 +84,7 @@ if ($configs->num_rows > 0) {
                             echo '
                             <a href="' . $config['value'] . '" class="relative w-full md:w-40 h-40 cursor-pointer hover:scale-105 rounded-xl bg-[#242526]">
                                <div class="absolute w-full h-full flex justify-center items-center">
-                                   <h2 class="card-title text-red-500"><i class="fa-solid fa-chart-line"></i> Billing</h2>
+                                   <h2 class="card-title text-red-500"><i class="fa-solid fa-line-chart"></i> Billing</h2>
                                </div>
                                <div class="absolute w-full">
                                    <div class="bg-fixed card w-full h-full flex justify-center items-center rounded-md"
